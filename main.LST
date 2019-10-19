@@ -1,0 +1,240 @@
+C51 COMPILER V9.54   MAIN                                                                  10/19/2019 21:34:38 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          
+   2          #include<reg52.h>
+   3          #include<intrins.h>
+   4          #include "main.h"
+   5          #include "mfrc522.h"  
+   6          #include <string.h>
+   7          
+   8          typedef unsigned int uint;
+   9          unsigned char idata ID[4];
+  10          unsigned char idata RevBuffer[30];  
+  11          unsigned char status;
+  12          unsigned char R_data;
+  13          unsigned char i = 0;
+  14          void Uart_SendByte(unsigned char Byte);
+  15          void lock();
+  16          void unlock();
+  17          void di(unsigned int x);
+  18          void verify();
+  19          void process();
+  20          void iccardcode();
+  21          void Uart_Init();
+  22          
+  23          
+  24          
+  25          void lock(){
+  26   1          LOCK_A = 1;
+  27   1          LOCK_B = 0;
+  28   1          delay_10ms(100);
+  29   1          LOCK_A = 1;
+  30   1          LOCK_B = 1;
+  31   1      }
+  32          void unlock(){
+  33   1          LOCK_A = 0;
+  34   1          LOCK_B = 1;
+  35   1          delay_10ms(100);
+  36   1          LOCK_A = 1;
+  37   1          LOCK_B = 1;
+  38   1          
+  39   1      }
+  40          void di(unsigned int x){  //蜂鸣器发声 x是时间
+  41   1        unsigned int Count1 = 0,Count2=0,Count3=0,flag=0;
+  42   1        x= x*100;
+  43   1        while(1){
+  44   2            Count1++;
+  45   2            Count3++;
+  46   2            if(Count1==100)
+  47   2            {
+  48   3               Count2++;
+  49   3               if(Count2 ==4 )
+  50   3               {
+  51   4                 Count1=0;
+  52   4                 Count2=0;
+  53   4                 flag=~flag;
+  54   4               }
+  55   3             }
+C51 COMPILER V9.54   MAIN                                                                  10/19/2019 21:34:38 PAGE 2   
+
+  56   2             if(!flag)
+  57   2             {
+  58   3               BEEP=~BEEP;     
+  59   3             }
+  60   2            if (Count3 == x){
+  61   3              BEEP = 1;
+  62   3              return;
+  63   3            }
+  64   2        
+  65   2        }
+  66   1         
+  67   1      }
+  68          
+  69          
+  70          
+  71          void process(){
+  72   1        if (R_data == 0x01){
+  73   2          unlock();
+  74   2          delay_10ms(500);
+  75   2          lock();
+  76   2          return;
+  77   2        }
+  78   1          if (R_data == 0x02){
+  79   2          di(100);
+  80   2          return;
+  81   2        }
+  82   1      
+  83   1      }
+  84          
+  85          void iccardcode()
+  86          {      
+  87   1      
+  88   1          unsigned char tmp;
+  89   1          switch (status){
+  90   2            case 0:  // 寻卡
+  91   2              LED_WAIT =0;
+  92   2              tmp = PcdRequest(0x52,&RevBuffer);
+  93   2              if (tmp == 0){
+  94   3                status =1;
+  95   3              }
+  96   2            break;
+  97   2            
+  98   2            case 1:   //防冲撞获取卡id
+  99   2              LED_FAIL =0; 
+ 100   2              tmp = PcdAnticoll(&ID);
+ 101   2              if (tmp == 0){
+ 102   3                status = 2;
+ 103   3              }else{
+ 104   3                status = 0;
+ 105   3              }
+ 106   2              break;
+ 107   2            case 2:   //验证卡
+ 108   2              verify();
+ 109   2              status =3;
+ 110   2              break;
+ 111   2            case 3:  //防止出错
+ 112   2              PcdAntennaOff(); 
+ 113   2              delay_10ms(1);
+ 114   2              PcdAntennaOn();
+ 115   2              status = 0;
+ 116   2            break;
+ 117   2            
+C51 COMPILER V9.54   MAIN                                                                  10/19/2019 21:34:38 PAGE 3   
+
+ 118   2            default:
+ 119   2              status =0;
+ 120   2            break;
+ 121   2          }
+ 122   1      }
+ 123          
+ 124          
+ 125          
+ 126          
+ 127          /********************************************************************
+ 128          初始化
+ 129          ***********************************************************************/
+ 130          void Uart_Init(void)
+ 131          {
+ 132   1           TMOD = 0x20;   //定时器工作在定时器1的方式2
+ 133   1           PCON = 0x00;   //不倍频
+ 134   1           SCON = 0x50; //串口工作在方式1，并且启动串行接收 
+ 135   1           TH1 = 0xFD;    //设置波特率 9600
+ 136   1           TL1 = 0xFd;
+ 137   1           TR1 = 1;   //启动定时器1
+ 138   1           ES = 1;    //开串口中断
+ 139   1           EA = 1;    //开总中断    
+ 140   1        
+ 141   1           PcdReset();   //读卡
+ 142   1           PcdAntennaOff(); 
+ 143   1           PcdAntennaOn();  
+ 144   1           M500PcdConfigISOType( 'A' );
+ 145   1      }
+ 146          /********************************************************************
+ 147          * 名称 : Uart_SendByte(uchar Byte)
+ 148          * 功能 : 串口发送1字节数据
+ 149          * 输入 : 无
+ 150          * 输出 : 无
+ 151          ***********************************************************************/
+ 152          void Uart_SendByte(unsigned char Byte)
+ 153          {
+ 154   1        SBUF =  Byte;
+ 155   1        while(!TI)                   //如果发送完毕，硬件会置位TI
+ 156   1        {
+ 157   2          _nop_();  
+ 158   2        } 
+ 159   1      }
+ 160          /********************************************************************
+ 161          * 名称 : Main()
+ 162          * 功能 : 主函数
+ 163          * 输入 : 无
+ 164          * 输出 : 无
+ 165          ***********************************************************************/
+ 166          void main()
+ 167          {
+ 168   1        Uart_Init();
+ 169   1        while(1)
+ 170   1        {
+ 171   2          LED_OK = 1;
+ 172   2          LED_WAIT = 1;
+ 173   2          LED_FAIL = 1;
+ 174   2          iccardcode();
+ 175   2        }   
+ 176   1      }
+ 177          
+ 178          
+ 179          
+C51 COMPILER V9.54   MAIN                                                                  10/19/2019 21:34:38 PAGE 4   
+
+ 180          /********************************************************************
+ 181          * 名称 : Uart_Int()
+ 182          * 功能 : 串口中断子函数
+ 183          * 输入 : 无
+ 184          * 输出 : 无
+ 185          ***********************************************************************/
+ 186          void Uart_Int(void) interrupt 4
+ 187          {
+ 188   1      //  static uchar i = 7;    //定义为静态变量，当重新进入这个子函数时 i 的值不会发生改变
+ 189   1        EA = 0;
+ 190   1        if(RI == 1)   //当硬件接收到一个数据时，RI会置位
+ 191   1        {
+ 192   2          R_data= SBUF; 
+ 193   2          RI = 0;  
+ 194   2          process();
+ 195   2        }
+ 196   1        EA = 1;
+ 197   1      }
+ 198          
+ 199            
+ 200          void verify(){
+ 201   1        Uart_SendByte(0xfd);
+ 202   1      
+ 203   1        for(i = 0; i <4 ;i++){
+ 204   2          Uart_SendByte(ID[i]);
+ 205   2        }
+ 206   1      }
+ 207          
+ 208          
+ 209          
+ 210          
+ 211          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    479    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      3       9
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =     34    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

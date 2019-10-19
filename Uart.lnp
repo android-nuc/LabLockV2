@@ -1,0 +1,4 @@
+"main.obj",
+"RC522.obj" 
+TO "Uart" 
+RAMSIZE(256) 
