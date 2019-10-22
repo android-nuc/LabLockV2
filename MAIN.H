@@ -11,9 +11,10 @@ sbit		 MF522_SO   =    P2^3;//MISO接口
 sbit     LED_OK  =  P1^0;   //成功指示灯 
 sbit     LED_WAIT = P1^1; //等待识别
 sbit     LED_FAIL = P1^2;  //失败
+sbit     HEART_TEST = P1^3;  //心跳检测
 
-sbit     LOCK_A = P1^3; //锁正极
-sbit     LOCK_B = P1^4;  //负极
+sbit     LOCK_A = P1^4; //锁正极
+sbit     LOCK_B = P1^5;  //负极
 sbit     BEEP = P2^5 ;     //蜂鸣器
 
 //按

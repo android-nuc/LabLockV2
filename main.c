@@ -11,6 +11,7 @@ unsigned char idata RevBuffer[30];
 unsigned char status;
 unsigned char R_data;
 unsigned char i = 0;
+unsigned char heart = 0;
 void Uart_SendByte(unsigned char Byte);
 void lock();
 void unlock();
@@ -69,13 +70,17 @@ void di(unsigned int x){  //蜂鸣器发声 x是时间
 
 
 void process(){
+	if (R_data == 0xf2){
+		heart = 0;
+		return;
+	}
 	if (R_data == 0x01){
 		unlock();
 		delay_10ms(500);
 		lock();
 		return;
 	}
-		if (R_data == 0x02){
+	if (R_data == 0x02){
 		di(100);
 		return;
 	}
@@ -84,7 +89,7 @@ void process(){
 
 void iccardcode()
 {	     
-
+		
 		unsigned char tmp;
 		switch (status){
 			case 0:  // 寻卡
@@ -119,6 +124,14 @@ void iccardcode()
 				status =0;
 			break;
 		}
+		HEART_TEST =~HEART_TEST;
+		if (heart >= 100){
+			di(100);
+		}
+		if (heart >= 40){
+			Uart_SendByte(0xf2);
+		}
+		heart++;
 }
 
 
@@ -166,6 +179,7 @@ void Uart_SendByte(unsigned char Byte)
 void main()
 {
 	Uart_Init();
+	HEART_TEST = 0;
 	while(1)
 	{
 		LED_OK = 1;

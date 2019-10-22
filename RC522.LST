@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 1   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE RC522
@@ -62,7 +62,7 @@ line level    source
   53          //功    能：防冲撞
   54          //参数说明: pSnr[OUT]:卡片序列号，4字节
   55          //返    回: 成功返回MI_OK
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 2   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 2   
 
   56          /////////////////////////////////////////////////////////////////////  
   57          char PcdAnticoll(unsigned char *pSnr)
@@ -126,7 +126,7 @@ line level    source
  115   1          if ((status == MI_OK) && (unLen == 0x18))
  116   1          {   status = MI_OK;  }
  117   1          else
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 3   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 3   
 
  118   1          {   status = MI_ERR;    }
  119   1      
@@ -190,7 +190,7 @@ line level    source
  177   2          }
  178   1          else
  179   1          {   status = MI_ERR;   }
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 4   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 4   
 
  180   1          
  181   1          return status;
@@ -254,7 +254,7 @@ line level    source
  239   1      }
  240          
  241          /////////////////////////////////////////////////////////////////////
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 5   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 5   
 
  242          //用MF522计算CRC16函数
  243          /////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ line level    source
  301   2           WriteRawRC(Status2Reg,0x0);//80    //trun off temperature sensor
  302   2           WriteRawRC(WaterLevelReg,0x08); //as default
  303   2             WriteRawRC(ControlReg,0x20);    //as default
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 6   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 6   
 
  304   2           WriteRawRC(CollReg,0x80);    //as default
  305   2      */
@@ -382,7 +382,7 @@ line level    source
  363   2               ucResult|=(bit)MF522_SO;
  364   2               MF522_SCK = 0;
  365   2           }
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 7   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 7   
 
  366   1      
  367   1           MF522_NSS = 1;
@@ -446,7 +446,7 @@ line level    source
  425   1          WriteRawRC(reg, tmp & ~mask);  // clear bit mask
  426   1      } 
  427          
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 8   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 8   
 
  428          /////////////////////////////////////////////////////////////////////
  429          //功    能：通过RC522和ISO14443卡通讯
@@ -510,7 +510,7 @@ line level    source
  487   2               if(!(ReadRawRC(ErrorReg)&0x1B))
  488   2               {
  489   3                   status = MI_OK;
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 9   
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 9   
 
  490   3                   if (n & irqEn & 0x01)
  491   3                   {   status = MI_NOTAGERR;   }
@@ -574,7 +574,7 @@ line level    source
  549          //          addr[IN]：钱包地址
  550          //          pValue[IN]：4字节增(减)值，低位在前
  551          //返    回: 成功返回MI_OK
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 10  
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 10  
 
  552          /////////////////////////////////////////////////////////////////////                 
  553          char PcdValue(unsigned char dd_mode,unsigned char addr,unsigned char *pValue)
@@ -638,7 +638,7 @@ line level    source
  611   1      
  612   1          if ((status != MI_OK) || (unLen != 4) || ((ucComMF522Buf[0] & 0x0F) != 0x0A))
  613   1          {   status = MI_ERR;   }
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 11  
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 11  
 
  614   1          
  615   1          if (status == MI_OK)
@@ -702,7 +702,7 @@ line level    source
                     delay_50us(20);
                     if (CmdValid)
                         return;
-C51 COMPILER V9.54   RC522                                                                 10/19/2019 21:34:39 PAGE 12  
+C51 COMPILER V9.54   RC522                                                                 10/22/2019 16:07:01 PAGE 12  
 
                     delay_50us(20);
                     if (CmdValid )

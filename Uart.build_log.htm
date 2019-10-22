@@ -18,7 +18,7 @@ Hex Converter:   OH51.exe V2.7.0.0
 CPU DLL:         S8051.DLL V3.100.0.0
 Dialog DLL:      DP51.DLL V2.62.0.1 
 <h2>Project:</h2>
-C:\Users\mzdlu\Desktop\25.´®¿ÚÊÕ·¢\Uart.uvproj
+C:\Users\mzdlu\code\chips\LabLockV2\Uart.uvproj
 Project File Date:  10/19/2019
 
 <h2>Output:</h2>
@@ -40,9 +40,13 @@ linking...
     SEGMENT: ?PR?_PCDVALUE?RC522
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PCDBAKVALUE?RC522
-Program Size: data=43.0 xdata=226 code=3720
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_DI?MAIN
+    CALLER1: ?PR?UART_INT?MAIN
+    CALLER2: ?C_C51STARTUP
+Program Size: data=43.0 xdata=227 code=3778
 creating hex file from "Uart"...
-"Uart" - 0 Error(s), 7 Warning(s).
+"Uart" - 0 Error(s), 8 Warning(s).
 Build Time Elapsed:  00:00:02
 </pre>
 </body>
