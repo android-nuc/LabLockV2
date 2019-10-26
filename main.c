@@ -88,8 +88,7 @@ void process(){
 }
 
 void iccardcode()
-{	     
-		
+{	     	
 		unsigned char tmp;
 		switch (status){
 			case 0:  // Ñ°¿¨
@@ -126,10 +125,11 @@ void iccardcode()
 		}
 		HEART_TEST =~HEART_TEST;
 		if (heart >= 100){
-			di(100);
+			 di(100);
 		}
 		if (heart >= 40){
 			Uart_SendByte(0xf2);
+			status = 3;
 		}
 		heart++;
 }
