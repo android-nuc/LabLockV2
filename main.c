@@ -72,6 +72,7 @@ void di(unsigned int x){  //蜂鸣器发声 x是时间
 void process(){
 	if (R_data == 0xf2){
 		heart = 0;
+		
 		return;
 	}
 	if (R_data == 0x01){
@@ -113,6 +114,7 @@ void iccardcode()
 				status =3;
 				break;
 			case 3:  //防止出错
+				PcdReset();
 				PcdAntennaOff(); 
 				delay_10ms(1);
 				PcdAntennaOn();
@@ -124,10 +126,11 @@ void iccardcode()
 			break;
 		}
 		HEART_TEST =~HEART_TEST;
-		if (heart >= 100){
+		if (heart >= 200){
 			 di(100);
+				return;
 		}
-		if (heart >= 40){
+		if (heart >= 100){
 			Uart_SendByte(0xf2);
 			status = 3;
 		}
