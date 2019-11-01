@@ -115,9 +115,6 @@ void iccardcode()
 				break;
 			case 3:  //·ÀÖ¹³ö´í
 				PcdReset();
-				PcdAntennaOff(); 
-				delay_10ms(1);
-				PcdAntennaOn();
 				status = 0;
 			break;
 			
@@ -128,7 +125,6 @@ void iccardcode()
 		HEART_TEST =~HEART_TEST;
 		if (heart >= 200){
 			 di(100);
-				return;
 		}
 		if (heart >= 100){
 			Uart_SendByte(0xf2);
