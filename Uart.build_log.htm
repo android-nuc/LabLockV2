@@ -3,29 +3,35 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.16a
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: 123 23, 312, LIC=9N945-G50D4-XM195-GAA1H-JBCKE-1XEHG
+IDE-Version: ¦ÌVision V5.27.1.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: NMSL NMSL, NMSL, LIC=50MKP-M7A7V-PQC0A-1DPVC-FN80Z-N9AW9
  
 Tool Versions:
-Toolchain:       MDK51 Professional  Version: 9.54
-Toolchain Path:  C:\Keil_v5\C51\BIN
-C Compiler:      C51.exe V9.54
-Assembler:       A51.exe V8.02c
-Linker/Locator:  BL51.exe V6.22
+Toolchain:       MDK51 Professional  Version: 9.60.0.0
+Toolchain Path:  C:\RT\Keil\C51\BIN
+C Compiler:      C51.exe V9.60.0.0
+Assembler:       A51.exe V8.2.7.0
+Linker/Locator:  BL51.exe V6.22.2.0
 Library Manager: LIB51.exe V4.30.1.0
 Hex Converter:   OH51.exe V2.7.0.0
-CPU DLL:         S8051.DLL V3.100.0.0
-Dialog DLL:      DP51.DLL V2.62.0.1 
+CPU DLL:         S8051.DLL V3.122.0.0
+Dialog DLL:      DP51.DLL V2.67.0.0 
 <h2>Project:</h2>
-C:\Users\mzdlu\code\chips\LabLockV2\Uart.uvproj
-Project File Date:  10/19/2019
+C:\Work-Station\CppProjects\LabLockV2O\Uart.uvproj
+Project File Date:  12/17/2019
 
 <h2>Output:</h2>
-Rebuild target 'Target 1'
+Build target 'Target 1'
 compiling main.c...
+main.c(185): warning C209: '_WatchDog_Init': too few actual parameters
 compiling RC522.C...
+RC522.C(658): warning C206: 'WatchDog_Feed': missing function-prototype
 linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?WATCHDOG_ENABLEIDLESTATE?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?WATCHDOG_QUITIDLESTATE?MAIN
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PCDSELECT?RC522
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
@@ -41,13 +47,17 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PCDBAKVALUE?RC522
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_DELAY_10MS?RC522
+    CALLER1: ?PR?UART_INT?MAIN
+    CALLER2: ?C_C51STARTUP
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
     SEGMENT: ?PR?_DI?MAIN
     CALLER1: ?PR?UART_INT?MAIN
     CALLER2: ?C_C51STARTUP
-Program Size: data=43.0 xdata=227 code=3778
+Program Size: data=43.0 xdata=227 code=4074
 creating hex file from "Uart"...
-"Uart" - 0 Error(s), 8 Warning(s).
-Build Time Elapsed:  00:00:02
+"Uart" - 0 Error(s), 13 Warning(s).
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

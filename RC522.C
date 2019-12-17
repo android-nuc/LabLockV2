@@ -3,6 +3,7 @@
 #include "main.h"
 #include "mfrc522.h"
 #include <string.h> 
+//#include "watchdog.h"
 #define MAXRLEN 18                        
 /////////////////////////////////////////////////////////////////////
 //¹¦    ÄÜ£ºÑ°¿¨
@@ -654,13 +655,15 @@ void delay_10ms(unsigned int _10ms)
     TR2 = TRUE;
     while (_10ms--)
     {
-	    while (!TF2);
+	    while (!TF2) {WatchDog_Feed();}
 	    TF2 = FALSE;
+			WatchDog_Feed();
     }
     TR2 = FALSE;
 #else
     while (_10ms--)
     {
+			WatchDog_Feed();
 	    delay_50us(19);
 	    if (CmdValid)
 	        return;
@@ -670,6 +673,7 @@ void delay_10ms(unsigned int _10ms)
 	    delay_50us(20);
 	    if (CmdValid)
 	        return;
+			WatchDog_Feed();
 	    delay_50us(20);
 	    if (CmdValid)
 	        return;
@@ -679,6 +683,7 @@ void delay_10ms(unsigned int _10ms)
 	    delay_50us(20);
 	    if (CmdValid)
 	        return;
+			WatchDog_Feed();
 	    delay_50us(20);
 	    if (CmdValid)
 	        return;
@@ -688,6 +693,7 @@ void delay_10ms(unsigned int _10ms)
 	    delay_50us(20);
 	    if (CmdValid)
 	        return;
+			WatchDog_Feed();
 	    delay_50us(19);
 	    if (CmdValid)
 	        return;

@@ -1,6 +1,7 @@
 
 #include<reg52.h>
 #include<intrins.h>
+#include "watchdog.h"
 #include "main.h"
 #include "mfrc522.h"	
 #include <string.h>
@@ -26,14 +27,14 @@ void Uart_Init();
 void lock(){
 		LOCK_A = 1;
 		LOCK_B = 0;
-		delay_10ms(100);
+		delay_10ms(80);
 		LOCK_A = 1;
 		LOCK_B = 1;
 }
 void unlock(){
 		LOCK_A = 0;
 		LOCK_B = 1;
-		delay_10ms(100);
+		delay_10ms(80);
 		LOCK_A = 1;
 		LOCK_B = 1;
 		
@@ -42,6 +43,7 @@ void di(unsigned int x){  //蜂鸣器发声 x是时间
 	unsigned int Count1 = 0,Count2=0,Count3=0,flag=0;
 	x= x*100;
 	while(1){
+		WatchDog_Feed();
 			Count1++;
 			Count3++;
 			if(Count1==100)
@@ -167,6 +169,7 @@ void Uart_SendByte(unsigned char Byte)
 	while(!TI)                   //如果发送完毕，硬件会置位TI
 	{
 		_nop_();	
+		WatchDog_Feed();
 	}	
 }
 /********************************************************************
@@ -179,12 +182,16 @@ void main()
 {
 	Uart_Init();
 	HEART_TEST = 0;
+	WatchDog_Init();
+	WatchDog_Enable();
+	
 	while(1)
 	{
 		LED_OK = 1;
 		LED_WAIT = 1;
 		LED_FAIL = 1;
 		iccardcode();
+		WatchDog_Feed();
 	}		
 }
 
