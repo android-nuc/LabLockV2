@@ -648,6 +648,7 @@ char PcdBakValue(unsigned char sourceaddr, unsigned char goaladdr)
 ///////////////////////////////////////////////////////////////////////
 void delay_10ms(unsigned int _10ms)
 {
+
 #ifndef NO_TIMER2
     RCAP2LH = RCAP2_10ms;
     T2LH    = RCAP2_10ms;

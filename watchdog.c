@@ -2,7 +2,7 @@
 #define __INC_GUARD_WATCHDOG
 
 #include <REG52.H>
-
+sfr WDT_CONTR = 0xE1;
 #define LED_PORT P2 //定义LED 控制端口为P2 口
 
 void WatchDog_Init(int scale) 
@@ -19,7 +19,7 @@ void WatchDog_Enable() {
 
 void WatchDog_Feed() 
 {
-    WDT_CONTR |= 55;
+    WDT_CONTR = 0x37;
 }
 
 void WatchDog_EnableIdleState() 
