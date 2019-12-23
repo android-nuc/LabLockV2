@@ -1,4 +1,5 @@
 "main.obj",
-"RC522.obj" 
+"RC522.obj",
+"watchdog.obj" 
 TO "Uart" 
 RAMSIZE(256) 

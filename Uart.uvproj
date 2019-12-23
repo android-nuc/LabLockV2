@@ -393,6 +393,11 @@
               <FileType>5</FileType>
               <FilePath>.\watchdog.h</FilePath>
             </File>
+            <File>
+              <FileName>watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

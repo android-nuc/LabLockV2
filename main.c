@@ -27,14 +27,14 @@ void Uart_Init();
 void lock(){
 		LOCK_A = 1;
 		LOCK_B = 0;
-		delay_10ms(80);
+		delay_10ms(50);
 		LOCK_A = 1;
 		LOCK_B = 1;
 }
 void unlock(){
 		LOCK_A = 0;
 		LOCK_B = 1;
-		delay_10ms(80);
+		delay_10ms(50);
 		LOCK_A = 1;
 		LOCK_B = 1;
 		
@@ -126,7 +126,7 @@ void iccardcode()
 		}
 		HEART_TEST =~HEART_TEST;
 		if (heart >= 200){
-			 di(100);
+			 di(10);
 		}
 		if (heart >= 100){
 			Uart_SendByte(0xf2);
